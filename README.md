@@ -1,6 +1,6 @@
 alien-invasion/
-├── alien_invasion.py   # Main game file
-├── settings.py         # Game settings
+- alien_invasion.py   # Main game file
+- settings.py         # Game settings
 ├── ship.py            # Ship class
 ├── bullet.py          # Bullet class
 ├── images/            # Game assets
