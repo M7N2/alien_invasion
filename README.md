@@ -1,3 +1,7 @@
+Prerequisites
+- Python 3.x
+- Pygame
+
 alien-invasion/
 - alien_invasion.py    (Main game file)
 - settings.py          (Game settings)
