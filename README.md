@@ -3,6 +3,6 @@ alien-invasion/
 - settings.py          (Game settings)
 - ship.py             (Ship class)
 - bullet.py           (Bullet class)
-- images/             (Game assets)
+- images/ 
   ship.png        (Ship image)
 - README.md
