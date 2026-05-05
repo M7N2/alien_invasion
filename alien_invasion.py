@@ -4,6 +4,7 @@ from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from star import Star
 
 class AlienInvasion:
     """Класс для управления ресурсами и поведением игры."""
@@ -20,6 +21,9 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        # Звезды.
+        self.stars = pygame.sprite.Group()
+        self._create_stars()
 
         self._create_fleet()
 
@@ -28,7 +32,8 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self._update_bullets()                    
+            self._update_bullets()
+            self._update_aliens()
             self._update_screen()
             
     def _check_events(self):
@@ -87,6 +92,10 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _update_aliens(self):
+        """Обновляет позиции всех пришельцев во флоте."""
+        self.aliens.update()            
+
     def _create_fleet(self):
         """Создание флота вторжения."""
         # Создание пришельца и вычисление количества пришельцев в ряду.
@@ -117,9 +126,19 @@ class AlienInvasion:
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 
+    def _create_stars(self):
+        """Создание звездного фона."""
+        for _ in range(self.settings.number_of_stars):
+            star = Star(self)
+            self.stars.add(star)
+
     def _update_screen(self):
         """Обновляет изображение на экране и отображает новый экран."""
         self.screen.fill(self.settings.bg_color)
+        
+        # Добавляем звезды.
+        self.stars.draw(self.screen)
+
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
