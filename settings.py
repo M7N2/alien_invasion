@@ -20,3 +20,6 @@ class Settings():
 
         # Настройки звезд.
         self.number_of_stars = 50
+        
+        # Настройки пришельцев.
+        self.alien_speed = 1.0
