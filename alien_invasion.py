@@ -116,6 +116,8 @@ class AlienInvasion:
         # Проверка столкновений пришелец - корабль.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+        # Проверить, добрались ли пишельцы до нижнего края экрана.
+        self._check_aliens_bottom()
 
     def _create_fleet(self):
         """Создание флота вторжения."""
