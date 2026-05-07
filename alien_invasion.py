@@ -1,6 +1,8 @@
 import pygame
 import sys
+from time import sleep
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -18,6 +20,10 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
+
+        # Создание экземпляра для хранения игровой статистики.
+        self.stats = GameStats(self)
+
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -59,7 +65,7 @@ class AlienInvasion:
             self.ship.moving_up = True
         # Вниз.
         elif event.key == pygame.K_DOWN:
-            self.ship.moving_down = True        
+            self.ship.moving_down = True
         # Закрытие клавишей q и ESC.
         elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
             sys.exit()
@@ -107,6 +113,9 @@ class AlienInvasion:
         """Обновляет позиции всех пришельцев во флоте."""
         self._check_fleet_edges()
         self.aliens.update()
+        # Проверка столкновений пришелец - корабль.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
 
     def _create_fleet(self):
         """Создание флота вторжения."""
@@ -140,7 +149,7 @@ class AlienInvasion:
         """Опускает весь флот и меняет направление флота."""
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
-        self.settings.fleet_direction *= -1                
+        self.settings.fleet_direction *= -1
 
     def _create_alien(self, alien_number, row_number):
         """Создание пришельца и размещение его в ряду."""
@@ -150,6 +159,19 @@ class AlienInvasion:
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
+
+    def _ship_hit(self):
+        """Обработка столкновения корабля с пришельцем."""
+        # Уменьшение ships_left.
+        self.stats.ships_left -= 1
+        # Очистка списков пришельцев и снарядов.
+        self.aliens.empty()
+        self.bullets.empty()
+        # Создание нового флота и размещение корабля в центре.
+        self._create_fleet()
+        self.ship.center_ship()
+        # Пауза.
+        sleep(0.5)
 
     def _create_stars(self):
         """Создание звездного фона."""
