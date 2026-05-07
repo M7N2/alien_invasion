@@ -160,6 +160,15 @@ class AlienInvasion:
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 
+    def _check_aliens_bottom(self):
+        """Проверяет, добрались ли пришельцы до нижнего края экрана."""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # То же что и при столкновении.
+                self._ship_hit()
+                break
+
     def _ship_hit(self):
         """Обработка столкновения корабля с пришельцем."""
         # Уменьшение ships_left.
