@@ -50,3 +50,4 @@ class Ship():
         """Размещает корабль в центре нижней стороны."""
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
