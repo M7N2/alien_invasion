@@ -31,8 +31,17 @@ class AlienInvasion:
         # Звезды.
         self.stars = pygame.sprite.Group()
         self._create_stars()
+
         # Создание кнопки Play.
-        self.play_button = Button(self, "Play")
+        self.play_button = Button(self, "Play normal", y_offset=-30)
+        self.play_button_hard = Button(self, "Play hard", y_offset=40)
+
+        # Изменить цвет кнопки Hard.
+        self.play_button_hard.button_color = (200, 50, 50)
+        self.play_button_hard._prep_msg("Play hard")
+
+        # Выбор сложности.
+        self.selected_difficulty = "normal"
 
         self._create_fleet()
 
@@ -63,6 +72,12 @@ class AlienInvasion:
 
     def _start_game(self):
         """Запуск игры."""
+        # Применяем настройки в зависимости от уровня сложности.
+        if self.selected_difficulty == "hard":
+            self.settings.set_hard_difficulty()
+        else:
+            self.settings.initialize_dynamic_settings()
+
         # Сброс игровой статистики.
         self.stats.reset_stats()
         self.stats.game_active = True
@@ -80,11 +95,20 @@ class AlienInvasion:
 
     def _check_play_button(self, mouse_pos):
         """Запускает игру при нажатии Play."""
-        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.stats.game_active:
-            # Сброс игровых настроек.
-            self.settings.initialize_dynamic_settings()
-            self._start_game()
+        normal_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        hard_clicked = self.play_button_hard.rect.collidepoint(mouse_pos)
+
+        if not self.stats.game_active:
+            if normal_clicked:
+                self.selected_difficulty = "normal"
+                # Сброс игновых настроек.
+                self.settings.initialize_dynamic_settings()
+                self._start_game()
+            elif hard_clicked:
+                self.selected_difficulty = "hard"
+                self.settings.initialize_dynamic_settings()
+                self.settings.set_hard_difficulty()
+                self._start_game()
 
     def _check_keydown_events(self, event):
         """Реагирует на нажатие клавиш."""
@@ -246,6 +270,7 @@ class AlienInvasion:
         # Кнопка Play отображается, если игра неактивна.
         if not self.stats.game_active:
             self.play_button.draw_button()
+            self.play_button_hard.draw_button()
 
         pygame.display.flip()
 
