@@ -83,6 +83,7 @@ class AlienInvasion:
 
         # Сброс игровой статистики.
         self.stats.reset_stats()
+        self.sb.prep_score()
         self.stats.game_active = True
 
         # Очистка списков пришельцев и снарядов.
@@ -104,7 +105,7 @@ class AlienInvasion:
         if not self.stats.game_active:
             if normal_clicked:
                 self.selected_difficulty = "normal"
-                # Сброс игновых настроек.
+                # Сброс игровых настроек.
                 self.settings.initialize_dynamic_settings()
                 self._start_game()
             elif hard_clicked:
@@ -167,6 +168,12 @@ class AlienInvasion:
         # При попадании удалить снаряд и пришельца.
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+
         if not self.aliens:
             # Уничтожение существующих снарядов и создание нового флота.
             self.bullets.empty()
