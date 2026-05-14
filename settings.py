@@ -33,6 +33,9 @@ class Settings():
         self.bullet_speed =  3.0
         self.alien_speed = 1.0
 
+        # Подсчет очков.
+        self.alien_points = 50
+
         # fleet_direction = 1 обозначает движение вправо, а -1 - влево.
         self.fleet_direction = 1
 
