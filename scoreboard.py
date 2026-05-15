@@ -11,7 +11,7 @@ class Scoreboard():
         self.stats = ai_game.stats
 
         # Настройки шрифта для вывода счета.
-        self.text_color = (30, 30, 30)
+        self.text_color = (100, 100, 100)
         self.font = pygame.font.SysFont(None, 48)
         # Подготовка исходного изображения счета.
         self.prep_score()
@@ -45,3 +45,9 @@ class Scoreboard():
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
+
+    def check_high_score(self):
+        """Проверяет, появился ли новый рекорд."""
+        if self.stats.score > self.stats.high_score:
+            self.stats.high_score = self.stats.score
+            self.prep_high_score()
