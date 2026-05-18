@@ -3,6 +3,12 @@ Prerequisites
 - Pygame
 
 Сontrol
+- Arrow Keys - Move ship
+- SPACE - Fire
+- R - Reset high score
+- Q/ESC - Quit game
+- Mouse - Click "Play normal" or "Play hard" buttons to start
+- ENTER - Quick start (Normal difficulty) and restart game on Normal
 
 
 alien-invasion/
