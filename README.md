@@ -1,3 +1,5 @@
+Alien Invasion 👾
+
 Prerequisites
 - Python 3.x
 - Pygame
@@ -22,6 +24,6 @@ alien-invasion/
 - scoreboard.py       (Score display class)
 - star.py             (Star background class)
 - images/ 
-  ship.png        (Ship image)
+  ship.png, al_ship.png        (Ships images)
 - high_score.json     (Saved high score (auto-generated))
 - README.md
