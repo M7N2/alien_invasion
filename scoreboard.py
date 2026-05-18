@@ -75,6 +75,11 @@ class Scoreboard():
         self.ships = Group()
         for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai_game)
-            ship.rect.x = 10 + ship_number * ship.rect.width
+
+            # Уменьшаем размер иконки корабля.
+            ship.image = pygame.transform.scale(ship.image, (20, 20))
+            ship.rect = ship.image.get_rect()
+
+            ship.rect.x = 10 + ship_number * (ship.rect.width + 5)
             ship.rect.y = 10
             self.ships.add(ship)
